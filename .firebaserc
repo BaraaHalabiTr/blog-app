@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "blog-app-d4462": {
+      "hosting": {
+        "blog-app": [
+          "blog-app-d4462"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "blog-app-d4462"
+  }
+}
