@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, of, switchMap } from 'rxjs';
-import { Firestore, doc, docData, setDoc } from '@angular/fire/firestore';
+import { User } from '../models/user';
+import { FirestoreService } from './firestore.service';
 import firebase from 'firebase/compat/app';
 
 @Injectable({
@@ -10,17 +11,17 @@ import firebase from 'firebase/compat/app';
 export class AuthService {
   public user$: Observable<any>;
 
-  constructor(public auth: AngularFireAuth, private firestore: Firestore) {
+  constructor(public auth: AngularFireAuth, private firestore: FirestoreService) {
     this.user$ = auth.authState.pipe(
       switchMap(user => {
-        return user ? docData(doc(firestore, `users/${user.uid}`)) : of(null);
+        return user ? this.firestore.getUser(user.uid) : of(null);
       })
     );
   }
 
   signInWithGoogle(): Promise<any> {
     return this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(res => {
-      this.addUserData(res.user);
+      this.saveUserData(res.user);
     });
   }
 
@@ -41,12 +42,15 @@ export class AuthService {
     }
   }
 
-  addUserData(user: any): Promise<any> {
-    return setDoc(doc(this.firestore, `users/${user.uid}`), {
+  saveUserData(user: any): Promise<any> {
+    //creating user object
+    const result: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL
-    });
+    }
+
+    return this.firestore.setUser(result);
   }
 }
