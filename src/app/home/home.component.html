@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+    <!-- <mat-icon>home</mat-icon> -->
+    <div *ngIf="auth.user$ | async as user;" class="profile">
+        <img [src]="user.photoURL" alt="profile picture">
+        <span>{{ user.displayName }}</span>
+    </div>
+    <span class="spacer"></span>
+    <button mat-icon-button><mat-icon>add_circle</mat-icon></button>
+    <button mat-icon-button (click)="signOut()"><mat-icon>logout</mat-icon></button>
+</mat-toolbar>
