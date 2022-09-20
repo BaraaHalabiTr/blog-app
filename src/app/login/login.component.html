@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+    <span>Welcome!</span>
+</mat-toolbar>
+<div class="container centered">
+    <mat-card calss="login-card">
+        <mat-card-title style="text-align: center">
+            Login
+        </mat-card-title>
+        <mat-card-subtitle>
+            <button mat-raised-button class="signin-with-google-button" (click)="auth.signInWithGoogle()">
+                <img src="../../assets/img/google-logo.png" alt="google logo">
+                Signin with google
+            </button>
+        </mat-card-subtitle>
+    </mat-card>
+</div>
