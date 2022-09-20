@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Post } from '../models/post';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -14,7 +14,11 @@ import { FirestoreService } from '../services/firestore.service';
 })
 export class HomeComponent  {
 
-  constructor(public auth: AuthService, private router: Router, private dialog: MatDialog) {}
+  posts$: Observable<any>;
+  
+  constructor(public auth: AuthService, private router: Router, private dialog: MatDialog, private firestore: FirestoreService) {
+    this.posts$ = this.firestore.getPosts();
+  }
 
   openAddDialog():void {
     const ref = this.dialog.open(AddPostDialog, {

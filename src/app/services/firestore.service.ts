@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc, docData, collection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, setDoc, doc, docData, collection, collectionData } from '@angular/fire/firestore';
+import { Observable, combineLatest } from 'rxjs';
 import { Post } from '../models/post';
 import { User } from '../models/user';
 
@@ -12,6 +12,10 @@ export class FirestoreService {
 
   getUser(id: string): Observable<any> {
     return docData(doc(this.firestore, `users/${id}`));
+  }
+
+  getUsers(): Observable<any> {
+    return collectionData(collection(this.firestore, 'users'));
   }
 
   setUser(user: User): Promise<any> {
@@ -29,7 +33,14 @@ export class FirestoreService {
     return setDoc(docRef, post);
   }
 
-  // getPosts(): Observable<any> {
-    
-  // }
+  getPosts(): Observable<any> {
+    return combineLatest(
+      [collectionData(collection(this.firestore, 'posts')), this.getUsers()],
+      (posts: any, users: any) => posts.map((p: any) => ({
+          ...p,
+          photoURL: users.filter((u: any) => u.uid === p.uid)[0].photoURL,
+          displayName: users.filter((u: any) => u.uid === p.uid)[0].displayName
+      }))
+    );
+  }
 }
