@@ -1,0 +1,29 @@
+<form [formGroup]="postForm">
+    <h1>New Post</h1>
+    <div mat-dialog-content style="display: flex; flex-direction: column;">
+        <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" required>
+        </mat-form-field>
+
+        <mat-form-field  appearance="outline">
+            <mat-label>Write somehting..</mat-label>
+            <textarea matInput formControlName="content" placeholder="Ex. It makes me feel..."></textarea>
+        </mat-form-field>
+
+        <mat-form-field  appearance="outline">
+            <mat-label>Pick a color</mat-label>
+            <input type="color" matInput formControlName="fontColor">
+        </mat-form-field>
+
+        <mat-form-field  appearance="outline">
+            <mat-label>Choose size</mat-label>
+            <input type="number" matInput formControlName="fontSize" min="12" max="24">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="warn" mat-dialog-close>Dismiss</button>
+        <span class="spacer"></span>
+        <button type="submit" mat-button cdkFocusInitial (click)="addPost()">Post</button>
+    </div>
+</form>

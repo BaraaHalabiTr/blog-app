@@ -5,6 +5,6 @@
         <span>{{ user.displayName }}</span>
     </div>
     <span class="spacer"></span>
-    <button mat-icon-button><mat-icon>add_circle</mat-icon></button>
+    <button mat-icon-button (click)="openAddDialog()"><mat-icon>add_circle</mat-icon></button>
     <button mat-icon-button (click)="signOut()"><mat-icon>logout</mat-icon></button>
 </mat-toolbar>

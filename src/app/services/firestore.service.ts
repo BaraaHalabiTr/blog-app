@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc, docData } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, docData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { Post } from '../models/post';
 import { User } from '../models/user';
 
 @Injectable({
@@ -21,4 +22,14 @@ export class FirestoreService {
       photoURL: user.photoURL
     });
   }
+
+  addPost(post: Post): Promise<any> {
+    const docRef = doc(collection(this.firestore, 'posts'));
+    post.id = docRef.id;
+    return setDoc(docRef, post);
+  }
+
+  // getPosts(): Observable<any> {
+    
+  // }
 }
