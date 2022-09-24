@@ -3,6 +3,7 @@ export interface Post {
     uid: string;
     title: string;
     content: string;
+    imageURL: string | undefined;
     fontColor: number;
     fontSize: number;
 }

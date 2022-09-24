@@ -11,17 +11,18 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { AddPostDialog } from './home/home.component';
+import { HomeComponent, AddPostDialog } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ import { MatInputModule } from '@angular/material/input';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    AngularFireStorageModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
 
@@ -45,7 +47,8 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressBarModule
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
