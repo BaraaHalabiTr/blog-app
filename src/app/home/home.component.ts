@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FirebaseStorage, uploadBytesResumable } from 'firebase/storage';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription, of, Subject } from 'rxjs';
 import { Post } from '../models/post';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -27,6 +27,8 @@ export class HomeComponent  {
   openAddDialog():void {
     const ref = this.dialog.open(AddPostDialog, {
       minWidth: '500px',
+      maxWidth: '500px',
+      maxHeight: '80%',
       disableClose: true
     });
 
@@ -59,8 +61,10 @@ export class AddPostDialog implements OnDestroy {
 
   postForm: FormGroup;
   userSubscription: Subscription;
-  urlSubscription: Subscription | undefined;
   image: File | undefined;
+
+  previewURL: string;
+
 
   constructor(public dialogRef: MatDialogRef<AddPostDialog>, private formBuilder: FormBuilder, private auth: AuthService, private firestore: FirestoreService, public storage: StorageService) {
     this.postForm = this.formBuilder.group({
@@ -68,12 +72,11 @@ export class AddPostDialog implements OnDestroy {
       content: ['', [Validators.required]],
       fontColor: ['#000000', [Validators.required]],
       fontSize: [12, [Validators.required, Validators.min(12), Validators.max(24)]],
-      picture: ['', [Validators.required]]
+      // picture: ['', [Validators.required]]
     });
 
     this.image = undefined;
     this.userSubscription = auth.user$.subscribe();
-    this.urlSubscription = undefined;
   }
 
   addPost() {
@@ -103,11 +106,21 @@ export class AddPostDialog implements OnDestroy {
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
-    if(this.urlSubscription)
-      this.urlSubscription.unsubscribe();
   }
 
   setImage(event: any) {
     this.image = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewURL = reader.result as string;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+
+    // let reader = new FileReader();
+    // reader.readAsDataURL(event.target.files[0]);
+    // reader.onload = (e) => {
+    //   this.preview.next(e.target?.result);
+    // }
   }
 }

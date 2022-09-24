@@ -22,7 +22,8 @@
             <input type="number" matInput formControlName="fontSize" min="12" max="24">
         </mat-form-field>
 
-        <input type="file" accept="image/*" formControlName="picture" (change)="setImage($event)">
+        <input type="file" class="file-input" accept="image/*" (change)="setImage($event)">
+        <img *ngIf="previewURL && previewURL != ''" [src]="previewURL" alt="">
     </div>
     <mat-progress-bar mode="determinate" value="{{ storage.uploadPercentage | async }}"></mat-progress-bar>
     <div mat-dialog-actions>
