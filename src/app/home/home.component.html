@@ -19,12 +19,12 @@
             <img mat-card-image src="{{ post.imageURL }}" alt="Post photo">
         </div>
         <mat-card-content style="height: 50px; overflow: hidden;">
-            <p>
+            <p id="post-content">
                 {{ post.content }}
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary">Open</button>
+            <button mat-raised-button color="primary" (click)="openPostDialog(post)">Open</button>
         </mat-card-actions>
     </mat-card>
 </div>

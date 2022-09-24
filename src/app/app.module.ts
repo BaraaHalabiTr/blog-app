@@ -11,7 +11,7 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent, AddPostDialog } from './home/home.component';
+import { HomeComponent, AddPostDialog, PostDialog } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
@@ -29,7 +29,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    AddPostDialog
+    AddPostDialog,
+    PostDialog
   ],
   imports: [
     BrowserModule,

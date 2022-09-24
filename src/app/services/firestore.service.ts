@@ -38,8 +38,8 @@ export class FirestoreService {
       [collectionData(collection(this.firestore, 'posts')), this.getUsers()],
       (posts: any, users: any) => posts.map((p: any) => ({
           ...p,
-          photoURL: users.filter((u: any) => u.uid === p.uid)[0].photoURL,
-          displayName: users.filter((u: any) => u.uid === p.uid)[0].displayName
+          photoURL: users.filter((u: any) => u.uid === p.uid)[0]?.photoURL,
+          displayName: users.filter((u: any) => u.uid === p.uid)[0]?.displayName
       }))
     );
   }

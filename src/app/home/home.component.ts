@@ -1,9 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Inject, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { FirebaseStorage, uploadBytesResumable } from 'firebase/storage';
-import { Observable, Subscription, of, Subject } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Post } from '../models/post';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -26,15 +25,23 @@ export class HomeComponent  {
 
   openAddDialog():void {
     const ref = this.dialog.open(AddPostDialog, {
-      minWidth: '500px',
-      maxWidth: '500px',
-      maxHeight: '80%',
+      width: 'fit',
+      maxHeight: '60%',
       disableClose: true
     });
 
     ref.afterClosed().subscribe(res => {
       console.log(res);
     })
+  }
+
+  openPostDialog(post: Post):void {
+    this.dialog.open(PostDialog, {
+      width: 'fit',
+      maxHeight: '60%',
+      disableClose: true,
+      data: post
+    });
   }
 
   signOut():void {
@@ -122,5 +129,21 @@ export class AddPostDialog implements OnDestroy {
     // reader.onload = (e) => {
     //   this.preview.next(e.target?.result);
     // }
+  }
+}
+
+@Component({
+  selector: 'post-dialog',
+  templateUrl: '../dialogs/post-dialog.html'
+})
+export class PostDialog {
+
+ @ViewChild('content') content: ElementRef;
+
+  constructor(dialogRef: MatDialogRef<PostDialog>, @Inject(MAT_DIALOG_DATA) public data: Post, private renderer: Renderer2) {}
+
+  ngAfterViewInit() {
+    this.renderer.setStyle(this.content.nativeElement, 'color', this.data.fontColor);
+    this.renderer.setStyle(this.content.nativeElement, 'font-size', this.data.fontSize + 'px');
   }
 }
